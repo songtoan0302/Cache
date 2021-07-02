@@ -12,13 +12,24 @@ import java.io.Serializable;
 @Entity
 public class User implements Serializable {
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
         private Long id;
-    @Column(name = "firstName")
+    @Column(name = "firstname")
         private String firstName;
-    @Column(name = "lastName")
+    @Column(name = "lastname")
         private String lastName;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return getId() == user.getId();
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
 
 
 }

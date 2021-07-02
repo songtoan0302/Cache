@@ -15,24 +15,22 @@ import java.util.Optional;
 @Service
 @Slf4j
 public class UserServiceImplement implements UserService{
-
-    private UserRepository userRepository;
     @Autowired
-    public UserServiceImplement(UserRepository userRepository){
-        this.userRepository=userRepository;
-    }
+    private  UserRepository userRepository;
     @Cacheable(value = "user",key = "#id")
+    @Override
     public Optional<User> getUserById(Long id){
         log.info("Retrieve User ID: { }",id);
         return userRepository.findById(id);
 
     }
-
+    @Override
     public User createUser(User user){
         return userRepository.save(user);
 
     }
     @CachePut(value = "user",key = "#id")
+    @Override
     public Optional<User> updateUserById(Long id,User user){
         Optional<User> optionalUser=userRepository.findById(id);
         if(!optionalUser.isPresent()){
@@ -43,6 +41,7 @@ public class UserServiceImplement implements UserService{
         return Optional.of(userRepository.save(user));
     }
     @CacheEvict(value = "user",allEntries = true)
+    @Override
     public boolean deleteUser(Long id){
         try {
             userRepository.deleteById(id);

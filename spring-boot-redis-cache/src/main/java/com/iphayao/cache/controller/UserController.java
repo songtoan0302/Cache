@@ -2,7 +2,6 @@ package com.iphayao.cache.controller;
 
 import com.iphayao.cache.model.User;
 import com.iphayao.cache.service.UserService;
-import com.iphayao.cache.service.UserServiceImplement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,10 +12,12 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/v1/users")
 public class UserController {
     @Autowired
-    private UserService userService;
+    private  UserService userService;
+
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable Long id){
         Optional<User> user =userService.getUserById(id);

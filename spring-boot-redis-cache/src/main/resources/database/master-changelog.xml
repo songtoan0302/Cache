@@ -10,5 +10,4 @@ xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
     http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.8.xsd ">
 <include file="changelog/20210625-1336-users-table.xml" relativeToChangelogFile="true"/>
-<!--    <include file="changelog/20210421-1832-users-table.xml" relativeToChangelogFile="true"/>-->
 </databaseChangeLog>
