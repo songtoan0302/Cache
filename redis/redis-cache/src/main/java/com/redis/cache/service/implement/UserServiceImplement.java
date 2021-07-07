@@ -4,9 +4,9 @@ import com.redis.cache.model.User;
 import com.redis.cache.repository.RedisCacheRepository;
 import com.redis.cache.repository.UserRepository;
 import com.redis.cache.service.UserService;
-import lombok.AllArgsConstructor;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +16,8 @@ import java.util.Objects;
 @RequiredArgsConstructor
 public class UserServiceImplement implements UserService {
 
-    private    UserRepository userRepository;
-    private      RedisCacheRepository redisCacheRepository;
-
+    private final UserRepository userRepository;
+    private final RedisCacheRepository redisCacheRepository;
 
     @Override
     public User getUserById(int id) {
@@ -33,30 +32,29 @@ public class UserServiceImplement implements UserService {
             redisCacheRepository.save(notCacheUser);
             return  notCacheUser;
         }
-
     }
-
 
     @Override
     public User createUser(User user) {
         User addedUser= userRepository.save(user);
         return addedUser;
+
     }
-
-
 
     @Override
     public User updateUser(User user) {
-        User userUpdate= userRepository.findById(user.getId()).orElseThrow(()-> {
-            throw new  RuntimeException("not found");});
+        User userUpdate= userRepository.findById(user.getId())
+                .orElseThrow(()-> { throw new  RuntimeException("not found");});
+        userUpdate.setLastName(user.getLastName());
+        userUpdate.setFirstName(user.getFirstName());
         userRepository.save(userUpdate);
         redisCacheRepository.save(userUpdate);
-
         return userUpdate;
+
     }
 
     @Override
-    public void deleteUserById(int id) {
+   public void deleteUserById(int id) {
         redisCacheRepository.deleteUserById(id);
          userRepository.deleteById(id);
     }
@@ -65,6 +63,5 @@ public class UserServiceImplement implements UserService {
     public List<User> findAll() {
         return userRepository.findAll();
     }
-
 
 }

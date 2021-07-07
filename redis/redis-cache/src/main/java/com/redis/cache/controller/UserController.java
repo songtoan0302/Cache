@@ -15,6 +15,7 @@ public class UserController {
 
     private final UserService userService;
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -29,7 +30,7 @@ public class UserController {
 
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@RequestBody User user){
+    public ResponseEntity<?> updateUser(@RequestBody User user,@PathVariable("id") int id){
         User editUser=userService.updateUser(user);
         if(Objects.nonNull(editUser)){
             return ResponseEntity.ok().build();
@@ -39,7 +40,7 @@ public class UserController {
         }
     }
     @GetMapping("/{id}")
-    public ResponseEntity<?>getUser(int id){
+    public ResponseEntity<?>getUser(@PathVariable("id") int id){
         User user= userService.getUserById(id);
         return ResponseEntity.ok().build();
     }

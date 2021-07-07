@@ -2,6 +2,7 @@ package com.redis.cache.repository;
 
 import com.redis.cache.model.User;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -14,12 +15,14 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 @Repository
-@AllArgsConstructor
+@RequiredArgsConstructor
+
 public class RedisCacheRepository {
 
     private final RedisTemplate redisTemplate;
     private static  final String KEY="USER";
     private final long TIME_TO_LIVE = 500000;
+
     @EventListener
     public void onApplicationEvent(ApplicationReadyEvent event) {
         List<User> users = redisTemplate.opsForHash().values(KEY);
@@ -28,6 +31,7 @@ public class RedisCacheRepository {
             deleteUserById(user.getId());
         }
     }
+
     public  void save(User user) {
             redisTemplate.opsForHash().put(KEY,user.getId(),user);
             redisTemplate.expire(KEY,TIME_TO_LIVE,TimeUnit.MILLISECONDS);
@@ -45,6 +49,7 @@ public class RedisCacheRepository {
     public void deleteUserById(int id) {
         redisTemplate.opsForHash().delete(id);
     }
+
     public List findAll(){
         return redisTemplate.opsForHash().values(KEY);
     }
