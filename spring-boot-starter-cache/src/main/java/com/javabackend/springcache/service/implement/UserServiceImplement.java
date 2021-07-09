@@ -26,8 +26,7 @@ public class UserServiceImplement implements UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(()->{
                     throw new RuntimeException("not found");
-                }
-                );
+                });
 
         return user;
     }
